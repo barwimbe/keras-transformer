@@ -6,8 +6,8 @@ Contains implementation of the Transformer model described in papers
 import math
 from typing import Union, Callable, Optional
 
-from keras.layers import Layer, Add, Activations, Dropout
-from keras import initializers
+from keras.layers import Layer, Add, Dropout
+from keras import initializers, activations
 # noinspection PyPep8Naming
 from keras import backend as K
 from keras.utils import get_custom_objects
@@ -81,13 +81,13 @@ class TransformerTransition(Layer):
           more hidden units than the model itself.
         :param kwargs: Keras-specific layer arguments.
         """
-        self.activation = Activations.get(activation)
+        self.activation = activations.get(activation)
         self.size_multiplier = size_multiplier
         super().__init__(**kwargs)
 
     def get_config(self):
         config = super().get_config()
-        config['activation'] = Activations.serialize(self.activation)
+        config['activation'] = activations.serialize(self.activation)
         config['size_multiplier'] = self.size_multiplier
         return config
 
